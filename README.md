@@ -4,13 +4,17 @@ A Lua module to join various javascript modules in a directory.
 
 ##
 
-lua-joinjs concatenates various javascript module files in a directory into a single file in dependency order. Each javascript file is considered to be a separate module which can depend on others. Dependencies is specified as comments:
+lua-joinjs concatenates various javascript module files in a directory
+into a single file in dependency order. Each javascript file is
+considered to be a separate module which can depend on others.
+Dependencies is specified as comments:
 
 ```
 // depends: module.js
 ```
 
-It wil also define a javascript function 'require(file)' which will return the javascript module in the file.
+It wil also define a javascript function 'require(file)' which will
+return the javascript module in the file.
 
 
 ## Example ##
@@ -20,10 +24,9 @@ If you for example have the following files in a directory called _js_:
  js/bar.js
 
 
-Where bar.js depends on foo.js and main.js depends on both bar.
+Where bar.js depends on foo.js.
 
-js/foo.js could be defined as:
-The javascript module should be defined as:
+The foo.js javascript module should be defined as:
 ```
 var foo = {}
 foo.hello = function() { return "hello from foo"; }
@@ -46,7 +49,7 @@ To join them with lua-joinjs (with Lua code):
 ```
 js = require('joinjs')
 js.read_dir('js')
--- print the contatenated javascript to stdout
+-- print the concatenated javascript to stdout
 js.dump()
 ```
 
