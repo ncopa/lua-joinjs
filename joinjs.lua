@@ -67,7 +67,7 @@ function joinjs.dir(dir)
 			deps[fname] = find_depends(data)
 		end
 	end
-	return jsfile, deps
+	return joinjs
 end
 
 function joinjs.dump(varname)
@@ -81,6 +81,7 @@ function joinjs.dump(varname)
 		io.write(varname.."['"..mod.."'] = "
 			..prefix..jsfile[mod]..suffix)
 	end
+	return joinjs
 end
 
 function joinjs.join(varname)
@@ -100,6 +101,7 @@ end
 function joinjs.reset()
 	jsfile = {}
 	deps = {}
+	return joinjs
 end
 
 return joinjs
