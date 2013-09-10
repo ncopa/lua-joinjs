@@ -72,21 +72,27 @@ end
 
 function joinjs.dump(varname)
 	local mod, data
+	local prefix = "(function(){\n"
+	local suffix = "\n}());\n\n"
 	varname = varname or 'joinjs_module'
 	io.write(header(varname))
 	local sorted = depsort(deps)
 	for _,mod in pairs(sorted) do
-		io.write(varname.."['"..mod.."'] = "..jsfile[mod])
+		io.write(varname.."['"..mod.."'] = "
+			..prefix..jsfile[mod]..suffix)
 	end
 end
 
 function joinjs.join(varname)
 	varname = varname or 'joinjs_module'
+	local prefix = "(function(){\n"
+	local suffix = "\n}());\n\n"
 	local mod, data
 	local sorted = depsort(deps)
 	local js = header(varname)
 	for _,mod in pairs(sorted) do
-		js = js..varname.."['"..mod.."'] = "..jsfile[mod]
+		js = js..varname.."['"..mod.."'] = "
+			..prefix..jsfile[mod]..suffix
 	end
 	return js
 end
