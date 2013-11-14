@@ -60,18 +60,22 @@ end
 -- Public functions ----------------------------------------------------
 local joinjs = {}
 
---- Read javascript modules in directory.
+--- Recursively read javascript modules in directory.
 -- Each .js file the specified directory will be read and stored in memory.
 -- It also search for dependency information. (eg.  // depends: ...)
--- @param dir the directory to read
+-- @param startdir the directory to recurse
 -- @return the joinjs object
-function joinjs.dir(dir)
+function joinjs.dir(startdir, subdir)
 	local fname
-	for fname in pos.files(dir) do
+	subdir = subdir or ""
+	for fname in pos.files(("%s/%s"):format(startdir, subdir)) do
+		local path=("%s%s"):format(subdir, fname)
 		if (fname):match("%.js$") then
-			local data = readfile(dir.."/"..fname)
-			jsfile[fname] = data
-			deps[fname] = find_depends(data)
+			local data = readfile(startdir.."/"..path)
+			jsfile[path] = data
+			deps[path] = find_depends(data)
+		elseif (fname):match("^[^.]") and pos.stat(("%s/%s"):format(startdir, path), "type") == "directory" then
+			joinjs.dir(startdir, path.."/")
 		end
 	end
 	return joinjs
