@@ -1,3 +1,5 @@
+--- Lua module to join javascript modules
+
 -- Copyright (c) Natanael Copa <ncopa@alpinelinux.org>
 
 local pos = require('posix')
@@ -58,6 +60,11 @@ end
 -- Public functions ----------------------------------------------------
 local joinjs = {}
 
+--- Read javascript modules in directory.
+-- Each .js file the specified directory will be read and stored in memory.
+-- It also search for dependency information. (eg.  // depends: ...)
+-- @param dir the directory to read
+-- @return the joinjs object
 function joinjs.dir(dir)
 	local fname
 	for fname in pos.files(dir) do
@@ -72,6 +79,10 @@ end
 
 local jsmod_prefix = "(function(){\n"
 local jsmod_suffix = "\n}());\n\n"
+--- Dump javascript code to stdout from joinjs object.
+-- The modules will be dumped in dependency order.
+-- @param varname optional variable name (defaults to joinjs_module)
+-- @return the joinjs object
 function joinjs.dump(varname)
 	varname = varname or 'joinjs_module'
 	local mod, data
@@ -84,6 +95,9 @@ function joinjs.dump(varname)
 	return joinjs
 end
 
+--- Join javascript code to a string.
+-- @param varname optional variable name (defaults to joinjs_module)
+-- @return string with the joined javascript code
 function joinjs.join(varname)
 	varname = varname or 'joinjs_module'
 	local mod, data
@@ -96,6 +110,8 @@ function joinjs.join(varname)
 	return js
 end
 
+--- Reset joinjs object.
+-- @return an empty joinjs object
 function joinjs.reset()
 	jsfile = {}
 	deps = {}
