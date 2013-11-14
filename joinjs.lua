@@ -72,8 +72,9 @@ function joinjs.dir(startdir, subdir)
 		local path=("%s%s"):format(subdir, fname)
 		if (fname):match("%.js$") then
 			local data = readfile(startdir.."/"..path)
-			jsfile[path] = data
-			deps[path] = find_depends(data)
+			local mod = (path):gsub("%.js$", "")
+			jsfile[mod] = data
+			deps[mod] = find_depends(data)
 		elseif (fname):match("^[^.]") and pos.stat(("%s/%s"):format(startdir, path), "type") == "directory" then
 			joinjs.dir(startdir, path.."/")
 		end

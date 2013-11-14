@@ -10,7 +10,7 @@ considered to be a separate module which can depend on others.
 Dependencies is specified as comments:
 
 ```
-// depends: module.js
+// depends: module
 ```
 
 It wil also define a javascript function 'require(file)' which will
@@ -35,10 +35,10 @@ return foo
 
 The js/bar.js looks like:
 ```
-// depends: foo.js
+// depends: foo
 var bar = {};
 bar.sayhello = function() {
-    var foo = require('foo.js');
+    var foo = require('foo');
     alert(foo.hello());
 }
 
@@ -48,13 +48,13 @@ return bar;
 To join them with lua-joinjs (with Lua code):
 ```
 js = require('joinjs')
-js.read_dir('js')
+js.dir('js')
 -- print the concatenated javascript to stdout
 js.dump()
 ```
 
 To use the module from main javascript code you can do:
 ```
-var bar = require('bar.js');
+var bar = require('bar');
 bar.sayhello();
 ```
